@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import Dropdown from '../components/Dropdown.js';
 import TextField from '../components/TextField.js';
+import wrapField from '../components/FieldWrapper.js';
 
 const fields = [{
   label: 'Text field',
   value: 'text',
-  component: TextField
+  component: wrapField(TextField)
 }, {
   label: 'Dropdown field',
   value: 'dropdown',
-  component: Dropdown
+  component: wrapField(Dropdown)
 }];
 
 const test = [{
@@ -28,6 +29,8 @@ class FormBuilder extends Component {
 
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
     this.handleAddField = this.handleAddField.bind(this);
+    this.handleEditField = this.handleEditField.bind(this);
+    this.handleRemoveField = this.handleRemoveField.bind(this);
   }
 
   handleChangeSelectField(value) {
@@ -53,6 +56,21 @@ class FormBuilder extends Component {
     })
   }
 
+  handleEditField(FormField) {
+    console.log('Edit');
+    console.log(FormField);
+  }
+
+  handleRemoveField(index) {
+    if(window.confirm('Are you sure?')) {
+      this.setState({
+        fields: this.state.fields.filter((field, idx) => {
+          return index !== idx;
+        })
+      });
+    }
+  }
+
   render() {
     return (
       <form className="form-builder">
@@ -65,14 +83,15 @@ class FormBuilder extends Component {
         />
         <button onClick={this.handleAddField}>Add</button>
         {this.state.fields.map((Field, index) => (
-          <div className="form-builder__field">
-            <Field
-              key={index}
-              label='my field'
-              id={`field-${index}`}
-              items={test}
-            />
-          </div>
+          <Field
+            key={index}
+            index={index}
+            label='my field'
+            id={`field-${index}`}
+            items={test}
+            handleEditField={this.handleEditField}
+            handleRemoveField={this.handleRemoveField}
+          />
         ))}
       </form>
     );

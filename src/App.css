@@ -30,3 +30,11 @@
   padding: 10px;
   display: block;
 }
+
+/**
+ * Component: FieldWrapper
+ */
+.fieldwrapper {
+  display: block;
+  padding: 1.5rem;
+}
