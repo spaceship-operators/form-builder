@@ -34,15 +34,15 @@ class SortableFieldList extends Component {
 
     const SortableList = SortableContainer(({items}) => {
       return (
-        <ul>
+        <div className="field-list">
           {items.map((field, index) => (
             <SortableItem key={`item-${index}`} index={index} itemIndex={index} field={field} />
           ))}
-        </ul>
+        </div>
       );
     });
 
-    return <SortableList items={this.props.fields} onSortEnd={this.props.reorderField} />;
+    return <SortableList helperClass="fieldwrapper--dragging" items={this.props.fields} onSortEnd={this.props.reorderField} />;
   }
 }
 

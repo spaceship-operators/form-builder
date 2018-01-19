@@ -48,15 +48,46 @@
 }
 
 /**
+ * Component: FieldList
+ */
+.field-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.field-list .fieldwrapper {
+  cursor: grab;
+}
+
+/**
  * Component: FieldWrapper
  */
 .fieldwrapper {
+  cursor: grab;
   display: block;
   padding: 1.5rem;
   border: 1px solid #cdcdcd;
   border-radius: 5px;
-  max-width: 800px;
+  width: 100%;
   margin: 35px  auto 0;
+  background: #fff;
+}
+
+.fieldwrapper--dragging {
+  cursor: grabbing;
+  pointer-events: auto !important;
+  opacity: .7;
+}
+
+.fieldwrapper--dragging::after {
+  position: absolute;
+  content: '';
+  background: #000;
+  opacity: .4;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .fieldwrapper__controls {

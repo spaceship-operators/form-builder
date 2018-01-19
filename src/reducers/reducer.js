@@ -75,14 +75,20 @@ export default (state = initialState, action) => {
       };
 
     case 'REORDER_FIELD':
+      let editing = (state.editing === false) ? false : state.editing;
+
       // Don't change anything if position hasn't changed
       if (action.oldIndex === action.newIndex) {
         return state;
       }
 
+      if (action.oldIndex === state.editing) {
+        editing = action.newIndex;
+      }
+
       return {
         ...state,
-        editing: (state.editing === false) ? false : action.newIndex,
+        editing: editing,
         fields: arrayMove(state.fields, action.oldIndex, action.newIndex)
       }
 
