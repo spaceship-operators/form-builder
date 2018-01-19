@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { changeSelectedField, addField, setEditing, changeFieldLabel, removeField } from '../actions/actions.js';
 import Dropdown from '../components/Dropdown.js';
 import TextField from '../components/TextField.js';
+import FieldList from './FieldList.js';
 
 class FormBuilder extends Component {
   constructor() {
@@ -11,7 +12,6 @@ class FormBuilder extends Component {
 
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
     this.handleAddField = this.handleAddField.bind(this);
-    this.handleRemoveField = this.handleRemoveField.bind(this);
     this.completeEditing = this.completeEditing.bind(this);
   }
 
@@ -23,12 +23,6 @@ class FormBuilder extends Component {
     e.preventDefault();
 
     this.props.addField();
-  }
-
-  handleRemoveField(index) {
-    if (window.confirm('Are you sure?')) {
-      this.props.removeField(index);
-    }
   }
 
   completeEditing(e) {
@@ -51,21 +45,7 @@ class FormBuilder extends Component {
             />
             <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
           </div>
-          {this.props.fields.map((field, index) => {
-            const Field = field.component;
-
-            return (
-              <Field
-                editing={this.props.editing === index}
-                key={index}
-                index={index}
-                id={`field-${index}`}
-                {...field}
-                handleEditField={this.props.setEditing}
-                handleRemoveField={this.handleRemoveField}
-              />
-            );
-          })}
+          <FieldList fields={this.props.fields}/>
         </div>
 
         {this.props.editing !== false &&

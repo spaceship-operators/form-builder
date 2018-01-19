@@ -3,6 +3,7 @@ import TextField from '../components/TextField.js';
 import RadioField from '../components/RadioField.js';
 import CheckboxField from '../components/CheckboxField.js';
 import wrapField from '../components/FieldWrapper.js';
+import { arrayMove } from 'react-sortable-hoc';
 
 const initialState = {
   addableFields: [{
@@ -43,7 +44,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  const newState = Object.assign({}, state);
   switch (action.type) {
     case 'CHANGE_SELECTED_FIELD':
       return {...state, fieldToAdd: action.value};
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
       });
       const newField = Object.assign({}, selectedField);
 
-      return {...state, fields: [...state.fields, newField]};
+      return {...state, fields: [...state.fields, newField], editing: state.fields.length};
 
     case 'SET_EDITING':
       return {...state, editing: action.index};
@@ -66,7 +66,6 @@ export default (state = initialState, action) => {
       return {...state, fields};
 
     case 'REMOVE_FIELD':
-
       return {
         ...state,
         editing: (state.editing === action.index) ? false : state.editing,
@@ -74,6 +73,18 @@ export default (state = initialState, action) => {
           return action.index !== idx;
         })
       };
+
+    case 'REORDER_FIELD':
+      // Don't change anything if position hasn't changed
+      if (action.oldIndex === action.newIndex) {
+        return state;
+      }
+
+      return {
+        ...state,
+        editing: (state.editing === false) ? false : action.newIndex,
+        fields: arrayMove(state.fields, action.oldIndex, action.newIndex)
+      }
 
     default:
       return state;

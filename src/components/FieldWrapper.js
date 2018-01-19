@@ -31,7 +31,7 @@ const wrapField = (Field) => {
         <div className={"fieldwrapper form-group" + (this.props.editing ? ' fieldwrapper--editing' : '')}>
           <Field {...this.props} />
           <div className="fieldwrapper__controls text-right clearfix">
-            {!this.props.editing && 
+            {!this.props.editing &&
               <button onClick={this.handleEditField} className="fieldwrapper__edit btn btn-info">
                 Edit
               </button>
