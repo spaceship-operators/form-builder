@@ -14,7 +14,7 @@ const wrapField = (Field) => {
       e.preventDefault();
 
       if (this.props.handleEditField) {
-        this.props.handleEditField(this);
+        this.props.handleEditField(this.props.index);
       }
     }
 

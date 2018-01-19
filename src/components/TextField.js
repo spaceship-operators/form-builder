@@ -14,6 +14,19 @@ export default class TextField extends React.Component {
   }
 
   /**
+   * Allows TextField to update its value to match and changes to the value prop
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value === nextProps.value) {
+      return;
+    }
+
+    this.setState({
+      value: nextProps.value
+    });
+  }
+
+  /**
    * Triggered upon input change, updates component state
    * @param {Object} Dom event for input change
    */
@@ -21,6 +34,10 @@ export default class TextField extends React.Component {
     this.setState({
       value,
     });
+
+    if (this.props.handleChange) {
+      this.props.handleChange(value);
+    }
   }
 
   render() {
@@ -42,7 +59,8 @@ export default class TextField extends React.Component {
 TextField.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  value: PropTypes.string
+  value: PropTypes.string,
+  handleChange: PropTypes.func
 };
 
 TextField.defaultProps = {
