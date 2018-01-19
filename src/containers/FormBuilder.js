@@ -33,6 +33,7 @@ class FormBuilder extends Component {
     this.handleEditField = this.handleEditField.bind(this);
     this.handleRemoveField = this.handleRemoveField.bind(this);
     this.handleEditLabel = this.handleEditLabel.bind(this);
+    this.completeEditing = this.completeEditing.bind(this);
   }
 
   handleChangeSelectField(value) {
@@ -87,43 +88,58 @@ class FormBuilder extends Component {
     });
   }
 
+  completeEditing(e) {
+    e.preventDefault();
+
+    this.setState({
+      editing: false
+    });
+  }
+
   render() {
     return (
-      <form className="form-builder">
-        <div className="form-builder__addform">
-          <Dropdown
-            label='Select field'
-            id='add-field-dropdown'
-            items={fields}
-            value={this.state.fieldToAdd}
-            handleChange={this.handleChangeSelectField}
-          />
-          <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
-        </div>
-        {this.state.fields.map((field, index) => {
-          const Field = field.component;
-
-          return (
-            <Field
-              key={index}
-              index={index}
-              label={field.label}
-              id={`field-${index}`}
-              items={test}
-              handleEditField={this.handleEditField}
-              handleRemoveField={this.handleRemoveField}
+      <form className="form-builder row">
+        <div className={this.state.editing === false ? 'col-12' : 'col-7'}>
+          <div className="form-builder__addform">
+            <Dropdown
+              label='Select field'
+              id='add-field-dropdown'
+              items={fields}
+              value={this.state.fieldToAdd}
+              handleChange={this.handleChangeSelectField}
             />
-          );
-        })}
+            <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
+          </div>
+          {this.state.fields.map((field, index) => {
+            const Field = field.component;
+
+            return (
+              <Field
+                editing={this.state.editing === index}
+                key={index}
+                index={index}
+                label={field.label}
+                id={`field-${index}`}
+                items={test}
+                handleEditField={this.handleEditField}
+                handleRemoveField={this.handleRemoveField}
+              />
+            );
+          })}
+        </div>
 
         {this.state.editing !== false &&
-          <div className="sidebar">
+          <div className="sidebar col-4 offset-1">
+            <h3 className="sidebar__heading">Edit {this.state.fields[this.state.editing].label}</h3>
             <TextField
               label="Label"
               id="field-label"
               value={this.state.fields[this.state.editing].label}
               handleChange={this.handleEditLabel}
             />
+            <button className="btn btn-success" onClick={this.completeEditing}>
+              Done
+            </button>
           </div>
         }
       </form>

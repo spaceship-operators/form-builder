@@ -33,7 +33,11 @@
 }
 
 .sidebar {
-  float: right;
+  border-left: 1px solid #cdcdcd;
+}
+
+.sidebar__heading {
+  text-align: center;
 }
 
 /**
@@ -50,4 +54,9 @@
 
 .fieldwrapper__remove {
   margin-left: 5px;
+}
+
+.fieldwrapper--editing {
+  border-color: #007bff;
+  background-color: #f6faff;
 }

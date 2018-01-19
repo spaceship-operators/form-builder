@@ -28,7 +28,7 @@ const wrapField = (Field) => {
 
     render() {
       return (
-        <div className="fieldwrapper form-group">
+        <div className={"fieldwrapper form-group" + (this.props.editing ? ' fieldwrapper--editing' : '')}>
           <Field {...this.props} />
           <div className="fieldwrapper__controls text-right clearfix">
             <button onClick={this.handleEditField} className="fieldwrapper__edit btn btn-outline-primary">

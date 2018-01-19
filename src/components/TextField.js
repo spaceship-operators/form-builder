@@ -44,7 +44,7 @@ export default class TextField extends React.Component {
     return (
       <div className="form-group">
         <label htmlFor={this.props.id} className="field field--text">
-          {this.props.label}:
+          {this.props.label}
         </label>
         <input
           className="field__input form-control"
