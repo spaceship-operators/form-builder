@@ -24,6 +24,12 @@
 
 .form-builder {
   padding: 20px;
+  text-align: left;
+}
+
+.form-builder__addform {
+  margin: 0 auto;
+  max-width: 300px;
 }
 
 .form-builder__field {
@@ -37,4 +43,12 @@
 .fieldwrapper {
   display: block;
   padding: 1.5rem;
+  border: 1px solid #cdcdcd;
+  border-radius: 5px;
+  max-width: 800px;
+  margin: 35px  auto 0;
+}
+
+.fieldwrapper__remove {
+  margin-left: 5px;
 }

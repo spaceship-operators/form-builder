@@ -74,14 +74,16 @@ class FormBuilder extends Component {
   render() {
     return (
       <form className="form-builder">
-        <Dropdown
-          label='Select field'
-          id='add-field-dropdown'
-          items={fields}
-          value={this.state.fieldToAdd}
-          handleChange={this.handleChangeSelectField}
-        />
-        <button onClick={this.handleAddField}>Add</button>
+        <div className="form-builder__addform">
+          <Dropdown
+            label='Select field'
+            id='add-field-dropdown'
+            items={fields}
+            value={this.state.fieldToAdd}
+            handleChange={this.handleChangeSelectField}
+          />
+          <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
+        </div>
         {this.state.fields.map((Field, index) => (
           <Field
             key={index}

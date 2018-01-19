@@ -25,16 +25,18 @@ export default class TextField extends React.Component {
 
   render() {
     return (
-      <label htmlFor={this.props.id} className="field field--text">
-        {this.props.label}:
+      <div className="form-group">
+        <label htmlFor={this.props.id} className="field field--text">
+          {this.props.label}:
+        </label>
         <input
-          className="field__input"
+          className="field__input form-control"
           type="text"
           id={this.props.id}
           value={this.state.value}
           onChange={this.handleChange}
         />
-      </label>
+      </div>
     );
   }
 }

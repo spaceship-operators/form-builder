@@ -28,16 +28,16 @@ const wrapField = (Field) => {
 
     render() {
       return (
-        <div className="fieldwrapper">
-          <div className="fieldwrapper__controls">
-            <button onClick={this.handleEditField} className="fieldwrapper__edit">
+        <div className="fieldwrapper form-group">
+          <Field {...this.props} />
+          <div className="fieldwrapper__controls text-right clearfix">
+            <button onClick={this.handleEditField} className="fieldwrapper__edit btn btn-outline-primary">
               Edit
             </button>
-            <button onClick={this.handleRemoveField} className="fieldwrapper__remove">
+            <button onClick={this.handleRemoveField} className="fieldwrapper__remove btn btn-outline-danger">
               Remove
             </button>
           </div>
-          <Field {...this.props} />
         </div>
       );
     }
