@@ -24,13 +24,15 @@ class FormBuilder extends Component {
 
     this.state = {
       fieldToAdd: 'text',
-      fields: []
+      fields: [],
+      editing: false
     }
 
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
     this.handleAddField = this.handleAddField.bind(this);
     this.handleEditField = this.handleEditField.bind(this);
     this.handleRemoveField = this.handleRemoveField.bind(this);
+    this.handleEditLabel = this.handleEditLabel.bind(this);
   }
 
   handleChangeSelectField(value) {
@@ -47,28 +49,42 @@ class FormBuilder extends Component {
     });
 
     if (selectedField === void 0) {
-      console.error('No selected field');
+      console.error('No selected field.');
       return;
     }
 
     this.setState({
-      fields: this.state.fields.concat([selectedField.component])
+      fields: this.state.fields.concat([{
+        component: selectedField.component,
+        label: 'My field'
+      }])
     })
   }
 
-  handleEditField(FormField) {
-    console.log('Edit');
-    console.log(FormField);
+  handleEditField(index) {
+    this.setState({
+      editing: index
+    });
   }
 
   handleRemoveField(index) {
-    if(window.confirm('Are you sure?')) {
+    if (window.confirm('Are you sure?')) {
       this.setState({
+        editing: (this.state.editing === index) ? false : this.state.editing,
         fields: this.state.fields.filter((field, idx) => {
           return index !== idx;
         })
       });
     }
+  }
+
+  handleEditLabel(value) {
+    let newFields = this.state.fields.concat([]);
+    newFields[this.state.editing].label = value;
+
+    this.setState({
+      fields: newFields
+    });
   }
 
   render() {
@@ -84,17 +100,32 @@ class FormBuilder extends Component {
           />
           <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
         </div>
-        {this.state.fields.map((Field, index) => (
-          <Field
-            key={index}
-            index={index}
-            label='my field'
-            id={`field-${index}`}
-            items={test}
-            handleEditField={this.handleEditField}
-            handleRemoveField={this.handleRemoveField}
-          />
-        ))}
+        {this.state.fields.map((field, index) => {
+          const Field = field.component;
+
+          return (
+            <Field
+              key={index}
+              index={index}
+              label={field.label}
+              id={`field-${index}`}
+              items={test}
+              handleEditField={this.handleEditField}
+              handleRemoveField={this.handleRemoveField}
+            />
+          );
+        })}
+
+        {this.state.editing !== false &&
+          <div className="sidebar">
+            <TextField
+              label="Label"
+              id="field-label"
+              value={this.state.fields[this.state.editing].label}
+              handleChange={this.handleEditLabel}
+            />
+          </div>
+        }
       </form>
     );
   }

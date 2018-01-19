@@ -32,9 +32,8 @@
   max-width: 300px;
 }
 
-.form-builder__field {
-  padding: 10px;
-  display: block;
+.sidebar {
+  float: right;
 }
 
 /**
