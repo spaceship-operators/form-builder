@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Magical form builder</h1>
+          <h1 className="App-title">freeform<span className="dot">.</span></h1>
         </header>
         <FormBuilder />
       </div>

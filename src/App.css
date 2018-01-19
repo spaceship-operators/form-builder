@@ -12,14 +12,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #222;
+  background-color: #000;
   height: 150px;
   padding: 20px;
   color: white;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: 'helvetica';
+}
+
+.App-title .dot {
+  font-size: 6rem;
+  color: #007bff;
 }
 
 .form-builder {
@@ -50,6 +57,16 @@
   border-radius: 5px;
   max-width: 800px;
   margin: 35px  auto 0;
+}
+
+.fieldwrapper__controls {
+  background-color: #F9F9FC;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-bottom: -24px;
+  padding: 15px;
+  border-top: 1px solid #cdcdcd;
+  border-radius: 0 0 5px 5px;
 }
 
 .fieldwrapper__remove {

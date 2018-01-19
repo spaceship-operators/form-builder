@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Dropdown from '../components/Dropdown.js';
 import TextField from '../components/TextField.js';
+import RadioField from '../components/RadioField.js';
+import CheckboxField from '../components/CheckboxField.js';
 import wrapField from '../components/FieldWrapper.js';
 
 const fields = [{
@@ -10,12 +12,30 @@ const fields = [{
 }, {
   label: 'Dropdown field',
   value: 'dropdown',
+  items: [
+    { label: 'Test 1', value: 'test1' },
+    { label: 'Test 2', value: 'test2' },
+    { label: 'Test 3', value: 'test3' },
+  ],
   component: wrapField(Dropdown)
-}];
-
-const test = [{
-  label: 'test',
-  value: 'test'
+}, {
+  label: 'Radio field',
+  value: 'radio',
+  items: [
+    { label: 'Yes', value: 'yes' },
+    { label: 'No', value: 'no' },
+  ],
+  component: wrapField(RadioField)
+}, {
+  label: 'Checkbox Field',
+  value: 'checkbox',
+  items: [
+    { label: 'English', value: 'english' },
+    { label: 'French', value: 'french' },
+    { label: 'Spanish', value: 'spanish' },
+    { label: 'Others', value: 'others' },
+  ],
+  component: wrapField(CheckboxField)
 }];
 
 class FormBuilder extends Component {
@@ -55,10 +75,7 @@ class FormBuilder extends Component {
     }
 
     this.setState({
-      fields: this.state.fields.concat([{
-        component: selectedField.component,
-        label: 'My field'
-      }])
+      fields: this.state.fields.concat([selectedField])
     })
   }
 
@@ -102,7 +119,7 @@ class FormBuilder extends Component {
         <div className={this.state.editing === false ? 'col-12' : 'col-7'}>
           <div className="form-builder__addform">
             <Dropdown
-              label='Select field'
+              label='Select field:'
               id='add-field-dropdown'
               items={fields}
               value={this.state.fieldToAdd}
@@ -118,9 +135,8 @@ class FormBuilder extends Component {
                 editing={this.state.editing === index}
                 key={index}
                 index={index}
-                label={field.label}
                 id={`field-${index}`}
-                items={test}
+                {...field}
                 handleEditField={this.handleEditField}
                 handleRemoveField={this.handleRemoveField}
               />
