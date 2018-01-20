@@ -1,3 +1,4 @@
+import React from 'react';
 import Dropdown from '../components/Dropdown.js';
 import TextField from '../components/TextField.js';
 import RadioField from '../components/RadioField.js';
@@ -6,39 +7,41 @@ import wrapField from '../components/FieldWrapper.js';
 import { arrayMove } from 'react-sortable-hoc';
 
 const initialState = {
-  addableFields: [{
-    label: 'Text field',
-    value: 'text',
-    component: wrapField(TextField)
-  }, {
-    label: 'Dropdown field',
-    value: 'dropdown',
-    items: [
-      { label: 'Test 1', value: 'test1' },
-      { label: 'Test 2', value: 'test2' },
-      { label: 'Test 3', value: 'test3' },
-    ],
-    component: wrapField(Dropdown)
-  }, {
-    label: 'Radio field',
-    value: 'radio',
-    items: [
-      { label: 'Yes', value: 'yes' },
-      { label: 'No', value: 'no' },
-    ],
-    component: wrapField(RadioField)
-  }, {
-    label: 'Checkbox Field',
-    value: 'checkbox',
-    items: [
-      { label: 'English', value: 'english' },
-      { label: 'French', value: 'french' },
-      { label: 'Spanish', value: 'spanish' },
-      { label: 'Others', value: 'others' },
-    ],
-    component: wrapField(CheckboxField)
-  }],
-  fieldToAdd: 'text',
+  fieldTypes:[
+    { 
+      label: 'Text Field', 
+      value: 'text', 
+      default: {
+        label: 'Text field label',
+        component: wrapField(TextField) 
+      }
+    },
+    { 
+      label: 'Dropdown', 
+      value: 'dropdown', 
+      default: {
+        label: 'Dropdown field label',
+        component: wrapField(Dropdown) 
+      }
+    },
+    { 
+      label: 'Radio Group', 
+      value: 'radio', 
+      default: {
+        label: 'Radio group label',
+        component: wrapField(RadioField) 
+      }
+    },
+    { 
+      label: 'Checkbox Group', 
+      value: 'checkbox', 
+      default: {
+        label: 'Checkbox group label',
+        component: wrapField(CheckboxField)
+      }
+    }
+  ],
+  selectedFieldType: 'text',
   fields: [],
   editing: false
 }
@@ -46,13 +49,13 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case 'CHANGE_SELECTED_FIELD':
-      return {...state, fieldToAdd: action.value};
+      return {...state, selectedFieldType: action.value};
 
     case 'ADD_FIELD':
-      const selectedField = state.addableFields.find(field => {
-        return field.value === state.fieldToAdd;
+      const selectedField = state.fieldTypes.find(field => {
+        return field.value === state.selectedFieldType;
       });
-      const newField = Object.assign({}, selectedField);
+      const newField = Object.assign({}, selectedField.default);
 
       return {...state, fields: [...state.fields, newField], editing: state.fields.length};
 

@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { changeSelectedField, addField, setEditing, changeFieldLabel, removeField } from '../actions/actions.js';
 import Dropdown from '../components/Dropdown.js';
 import TextField from '../components/TextField.js';
+import RadioField from '../components/RadioField.js';
+import CheckboxField from '../components/CheckboxField.js';
 import FieldList from './FieldList.js';
+import wrapField from '../components/FieldWrapper.js';
 
 class FormBuilder extends Component {
   constructor() {
@@ -39,13 +42,13 @@ class FormBuilder extends Component {
             <Dropdown
               label='Select field:'
               id='add-field-dropdown'
-              items={this.props.addableFields}
-              value={this.props.fieldToAdd}
+              items={this.props.fieldTypes}
+              value={this.props.selectedFieldType}
               handleChange={this.handleChangeSelectField}
             />
             <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
           </div>
-          <FieldList fields={this.props.fields}/>
+          <FieldList fields={this.props.fields} />
         </div>
 
         {this.props.editing !== false &&
@@ -68,11 +71,11 @@ class FormBuilder extends Component {
 }
 
 const mapStateToProps = state => {
-  const { fieldToAdd, addableFields, fields, editing } = state;
+  const { fieldTypes, selectedFieldType, fields, editing } = state;
 
   return {
-    fieldToAdd,
-    addableFields,
+    fieldTypes,
+    selectedFieldType,
     fields,
     editing
   };

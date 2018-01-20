@@ -51,6 +51,7 @@ RadioField.propTypes = {
 };
 
 RadioField.defaultProps = {
+  label: 'Radio Group Label',
   value: '',
   items: [
     { label: 'Yes', value: 'yes' },

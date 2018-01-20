@@ -29,7 +29,7 @@ export default class Dropdown extends React.Component {
         <label htmlFor={this.props.id} className="field field--dropdown">
           {this.props.label}
         </label>
-        <select id={this.props.id} onChange={this.handleChange} className="field__input form-control" >
+        <select id={this.props.id} onChange={this.handleChange} className="field__input form-control">
           {this.props.items.map(({ label, value }) => (
             <option value={value} key={value} >{label}</option>
           ))}
@@ -50,5 +50,9 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
+  label: 'Dropdown Label',
   value: '',
+  items: [
+    { label: 'Option 1', value: 'option1' },
+  ]
 };

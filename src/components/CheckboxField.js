@@ -51,6 +51,7 @@ CheckboxField.propTypes = {
 };
 
 CheckboxField.defaultProps = {
+  label: 'Checkbox Group Label',
   value: '',
   items: [
     { label: 'Yes', value: 'yes' },

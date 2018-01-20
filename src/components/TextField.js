@@ -66,5 +66,6 @@ TextField.propTypes = {
 };
 
 TextField.defaultProps = {
+  label: 'Text Label',
   value: '',
 };
