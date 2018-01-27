@@ -69,24 +69,31 @@ export default (state = initialState, action) => {
       return {...state, fields};
 
     case 'REMOVE_FIELD':
+      let editingField = state.editing;
+    
+      if (state.editing !== false && action.index < state.editing) {
+        editingField = state.editing - 1;
+      } else if (state.editing !== false && action.index === state.editing) {
+        editingField = false;
+      }
+      
       return {
         ...state,
-        editing: (state.editing === action.index) ? false : state.editing,
+        editing: editingField,
         fields: state.fields.filter((field, idx) => {
           return action.index !== idx;
         })
       };
 
     case 'REORDER_FIELD':
-      let editing = (state.editing === false) ? false : state.editing;
+      let editing = state.editing;
 
       // Don't change anything if position hasn't changed
       if (action.oldIndex === action.newIndex) {
         return state;
       }
 
-      if (action.oldIndex === state.editing) {
-        editing = action.newIndex;
+      if (editing !== false && action.oldIndex === editing) {
       }
 
       return {
