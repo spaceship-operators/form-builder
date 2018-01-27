@@ -1,8 +1,8 @@
-import React from 'react';
 import Dropdown from '../components/Dropdown.js';
 import TextField from '../components/TextField.js';
 import RadioField from '../components/RadioField.js';
 import CheckboxField from '../components/CheckboxField.js';
+import EditForm from '../components/EditForm.js';
 import wrapField from '../components/FieldWrapper.js';
 import { arrayMove } from 'react-sortable-hoc';
 
@@ -13,7 +13,8 @@ const initialState = {
       value: 'text', 
       default: {
         label: 'Text field label',
-        component: wrapField(TextField) 
+        component: wrapField(TextField),
+        editForm: EditForm,
       }
     },
     { 
@@ -21,7 +22,8 @@ const initialState = {
       value: 'dropdown', 
       default: {
         label: 'Dropdown field label',
-        component: wrapField(Dropdown) 
+        component: wrapField(Dropdown),
+        editForm: EditForm,
       }
     },
     { 
@@ -29,7 +31,8 @@ const initialState = {
       value: 'radio', 
       default: {
         label: 'Radio group label',
-        component: wrapField(RadioField) 
+        component: wrapField(RadioField),
+        editForm: EditForm,
       }
     },
     { 
@@ -37,7 +40,8 @@ const initialState = {
       value: 'checkbox', 
       default: {
         label: 'Checkbox group label',
-        component: wrapField(CheckboxField)
+        component: wrapField(CheckboxField),
+        editForm: EditForm,
       }
     }
   ],
@@ -94,6 +98,7 @@ export default (state = initialState, action) => {
       }
 
       if (editing !== false && action.oldIndex === editing) {
+        editing = action.newIndex;
       }
 
       return {

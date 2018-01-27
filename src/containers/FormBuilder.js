@@ -3,11 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { changeSelectedField, addField, setEditing, changeFieldLabel, removeField } from '../actions/actions.js';
 import Dropdown from '../components/Dropdown.js';
-import TextField from '../components/TextField.js';
-import RadioField from '../components/RadioField.js';
-import CheckboxField from '../components/CheckboxField.js';
+import EditForm from '../components/EditForm.js';
 import FieldList from './FieldList.js';
-import wrapField from '../components/FieldWrapper.js';
 
 class FormBuilder extends Component {
   constructor() {
@@ -15,7 +12,6 @@ class FormBuilder extends Component {
 
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
     this.handleAddField = this.handleAddField.bind(this);
-    this.completeEditing = this.completeEditing.bind(this);
   }
 
   handleChangeSelectField(value) {
@@ -28,15 +24,28 @@ class FormBuilder extends Component {
     this.props.addField();
   }
 
-  completeEditing(e) {
+  handleSubmit(e) {
     e.preventDefault();
-
-    this.props.setEditing(false);
   }
+  
 
   render() {
+    let editForm;
+    if (this.props.editing !== false) {
+      const editingField = this.props.fields[this.props.editing];
+      const EditFormComponent = editingField.editForm !== undefined
+        ? editingField.editForm
+        : EditForm;
+
+      editForm = (
+        <div className="sidebar col-4 offset-1">
+          <EditFormComponent field={editingField} key={this.props.editing} setEditing={this.props.setEditing} changeFieldLabel={this.props.changeFieldLabel} />
+        </div>
+      );
+    }
+
     return (
-      <form className="form-builder row">
+      <form className="form-builder row" onSubmit={this.handleSubmit}>
         <div className={this.props.editing === false ? 'col-12' : 'col-7'}>
           <div className="form-builder__addform">
             <Dropdown
@@ -51,20 +60,7 @@ class FormBuilder extends Component {
           <FieldList fields={this.props.fields} />
         </div>
 
-        {this.props.editing !== false &&
-          <div className="sidebar col-4 offset-1">
-            <h3 className="sidebar__heading">Edit {this.props.fields[this.props.editing].label}</h3>
-            <TextField
-              label="Label"
-              id="field-label"
-              value={this.props.fields[this.props.editing].label}
-              handleChange={this.props.changeFieldLabel}
-            />
-            <button className="btn btn-success" onClick={this.completeEditing}>
-              Done
-            </button>
-          </div>
-        }
+        {editForm}
       </form>
     );
   }
