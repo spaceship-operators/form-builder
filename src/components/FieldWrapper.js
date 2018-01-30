@@ -14,7 +14,7 @@ const wrapField = (Field) => {
       e.preventDefault();
 
       if (this.props.handleEditField) {
-        this.props.handleEditField(this.props.index);
+        this.props.handleEditField(this.props.internalId);
       }
     }
 
@@ -22,7 +22,7 @@ const wrapField = (Field) => {
       e.preventDefault();
 
       if (this.props.handleRemoveField) {
-        this.props.handleRemoveField(this.props.index);
+        this.props.handleRemoveField(this.props.internalId);
       }
     }
 

@@ -15,8 +15,8 @@ export default class EditForm extends React.Component {
     this.props.setEditing(false);
   }
 
-  changeFieldLabel(value) {
-    this.props.changeFieldLabel(value);
+  changeFieldLabel(label) {
+    this.props.updateField(this.props.field.internalId, {label});
   }
 
   render() {
@@ -40,5 +40,5 @@ export default class EditForm extends React.Component {
 EditForm.propTypes = {
   field: PropTypes.object.isRequired,
   setEditing: PropTypes.func.isRequired,
-  changeFieldLabel: PropTypes.func.isRequired,
+  updateField: PropTypes.func.isRequired,
 };

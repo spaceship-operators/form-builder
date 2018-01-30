@@ -50,62 +50,86 @@ const initialState = {
   editing: false
 }
 
+const guid = () => {
+  const s4 = () => {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
+  const parts = [
+    s4() + s4(), 
+    s4(), 
+    s4(), 
+    s4(), 
+    s4() + s4() + s4()
+  ];
+
+  return parts.join('-');
+}
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case 'CHANGE_SELECTED_FIELD':
       return {...state, selectedFieldType: action.value};
 
     case 'ADD_FIELD':
-      const selectedField = state.fieldTypes.find(field => {
-        return field.value === state.selectedFieldType;
-      });
-      const newField = Object.assign({}, selectedField.default);
+      return (() => {
+        const selectedField = state.fieldTypes.find(field => {
+          return field.value === state.selectedFieldType;
+        });
 
-      return {...state, fields: [...state.fields, newField], editing: state.fields.length};
+        const newField = Object.assign({}, selectedField.default);
+        newField.internalId = guid();
+
+        return {...state, fields: [...state.fields, newField], editing: newField.internalId};
+      })();
 
     case 'SET_EDITING':
-      return {...state, editing: action.index};
+      return {...state, editing: action.internalId};
 
-    case 'CHANGE_FIELD_LABEL':
-      let fields = state.fields.concat([]);
-      fields[state.editing].label = action.value;
+    case 'UPDATE_FIELD':
+      return (() => {
+        let fields = state.fields.concat([]);
 
-      return {...state, fields};
+        let field = fields.find((f) => {
+          return f.internalId === action.fieldId;  
+        });
+
+        if (field === undefined) {
+          return state;
+        }
+
+        field = Object.assign(field, action.fieldProps);
+
+        return {...state, fields}; 
+      })();
 
     case 'REMOVE_FIELD':
-      let editingField = state.editing;
-    
-      if (state.editing !== false && action.index < state.editing) {
-        editingField = state.editing - 1;
-      } else if (state.editing !== false && action.index === state.editing) {
-        editingField = false;
-      }
-      
-      return {
-        ...state,
-        editing: editingField,
-        fields: state.fields.filter((field, idx) => {
-          return action.index !== idx;
-        })
-      };
+      return (() => {
+        const fields = state.fields.concat([]);
+        const editing = state.editing === action.internalId ? false : state.editing;
+        return {
+          ...state,
+          editing,
+          fields: fields.filter(field => {
+            return action.internalId !== field.internalId;
+          })
+        };
+      })();
 
     case 'REORDER_FIELD':
-      let editing = state.editing;
+      return (() => {
+        // Don't change anything if position hasn't changed
+        if (action.oldIndex === action.newIndex) {
+          return state;
+        }
 
-      // Don't change anything if position hasn't changed
-      if (action.oldIndex === action.newIndex) {
-        return state;
-      }
-
-      if (editing !== false && action.oldIndex === editing) {
-        editing = action.newIndex;
-      }
-
-      return {
-        ...state,
-        editing: editing,
-        fields: arrayMove(state.fields, action.oldIndex, action.newIndex)
-      }
+        return {
+          ...state,
+          fields: arrayMove(state.fields, action.oldIndex, action.newIndex)
+        }
+      })();
 
     default:
       return state;

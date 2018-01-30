@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { changeSelectedField, addField, setEditing, changeFieldLabel, removeField } from '../actions/actions.js';
+import { changeSelectedField, addField, setEditing, updateField, removeField } from '../actions/actions.js';
 import Dropdown from '../components/Dropdown.js';
 import EditForm from '../components/EditForm.js';
 import FieldList from './FieldList.js';
@@ -32,16 +32,21 @@ class FormBuilder extends Component {
   render() {
     let editForm;
     if (this.props.editing !== false) {
-      const editingField = this.props.fields[this.props.editing];
-      const EditFormComponent = editingField.editForm !== undefined
-        ? editingField.editForm
-        : EditForm;
+      const editingField = this.props.fields.find((f) => {
+        return f.internalId === this.props.editing;
+      });
 
-      editForm = (
-        <div className="sidebar col-4 offset-1">
-          <EditFormComponent field={editingField} key={this.props.editing} setEditing={this.props.setEditing} changeFieldLabel={this.props.changeFieldLabel} />
-        </div>
-      );
+      if (editingField !== undefined) {
+        const EditFormComponent = editingField.editForm !== undefined
+          ? editingField.editForm
+          : EditForm;
+
+        editForm = (
+          <div className="sidebar col-4 offset-1">
+            <EditFormComponent field={editingField} key={this.props.editing} setEditing={this.props.setEditing} updateField={this.props.updateField} />
+          </div>
+        );
+      }
     }
 
     return (
@@ -81,7 +86,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   changeSelectedField,
   addField,
   setEditing,
-  changeFieldLabel,
+  updateField,
   removeField
 }, dispatch);
 

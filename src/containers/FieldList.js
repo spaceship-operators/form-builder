@@ -10,21 +10,21 @@ class SortableFieldList extends Component {
     this.handleRemoveField = this.handleRemoveField.bind(this);
   }
 
-  handleRemoveField(index) {
+  handleRemoveField(internalId) {
     if (window.confirm('Are you sure?')) {
-      this.props.removeField(index);
+      this.props.removeField(internalId);
     }
   }
 
   render() {
-    const SortableItem = SortableElement(({field, itemIndex}) => {
+    const SortableItem = SortableElement(({field, index}) => {
       const Field = field.component;
 
       return (
         <Field
-          editing={this.props.editing === itemIndex}
-          index={itemIndex}
-          id={`field-${itemIndex}`}
+          editing={this.props.editing === field.internalId}
+          id={field.internalId}
+          internalId={field.internalId}
           {...field}
           handleEditField={this.props.setEditing}
           handleRemoveField={this.handleRemoveField}
@@ -32,11 +32,11 @@ class SortableFieldList extends Component {
       );
     });
 
-    const SortableList = SortableContainer(({items}) => {
+    const SortableList = SortableContainer(({items, index}) => {
       return (
         <div className="field-list">
           {items.map((field, index) => (
-            <SortableItem key={`item-${index}`} index={index} itemIndex={index} field={field} />
+            <SortableItem key={field.internalId} index={index} field={field} />
           ))}
         </div>
       );
