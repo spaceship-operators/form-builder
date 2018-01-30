@@ -32,16 +32,21 @@ class FormBuilder extends Component {
   render() {
     let editForm;
     if (this.props.editing !== false) {
-      const editingField = this.props.fields[this.props.editing];
-      const EditFormComponent = editingField.editForm !== undefined
-        ? editingField.editForm
-        : EditForm;
+      const editingField = this.props.fields.find((f) => {
+        return f.internalId === this.props.editing;
+      });
 
-      editForm = (
-        <div className="sidebar col-4 offset-1">
-          <EditFormComponent field={editingField} key={this.props.editing} setEditing={this.props.setEditing} updateField={this.props.updateField} />
-        </div>
-      );
+      if (editingField !== undefined) {
+        const EditFormComponent = editingField.editForm !== undefined
+          ? editingField.editForm
+          : EditForm;
+
+        editForm = (
+          <div className="sidebar col-4 offset-1">
+            <EditFormComponent field={editingField} key={this.props.editing} setEditing={this.props.setEditing} updateField={this.props.updateField} />
+          </div>
+        );
+      }
     }
 
     return (

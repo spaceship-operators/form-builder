@@ -82,19 +82,11 @@ export default (state = initialState, action) => {
         const newField = Object.assign({}, selectedField.default);
         newField.internalId = guid();
 
-        return {...state, fields: [...state.fields, newField], editing: state.fields.length};
+        return {...state, fields: [...state.fields, newField], editing: newField.internalId};
       })();
 
     case 'SET_EDITING':
-      return {...state, editing: action.index};
-
-    case 'CHANGE_FIELD_LABEL':
-      return (() => {
-        let fields = state.fields.concat([]);
-        fields[state.editing].label = action.value;
-
-        return {...state, fields};
-      })();
+      return {...state, editing: action.internalId};
 
     case 'UPDATE_FIELD':
       return (() => {
@@ -115,39 +107,26 @@ export default (state = initialState, action) => {
 
     case 'REMOVE_FIELD':
       return (() => {
-        let editing = state.editing;
-      
-        if (state.editing !== false && action.index < state.editing) {
-          editing = state.editing - 1;
-        } else if (state.editing !== false && action.index === state.editing) {
-          editing = false;
-        }
-        
+        const fields = state.fields.concat([]);
+        const editing = state.editing === action.internalId ? false : state.editing;
         return {
           ...state,
-          editing: editing,
-          fields: state.fields.filter((field, idx) => {
-            return action.index !== idx;
+          editing,
+          fields: fields.filter(field => {
+            return action.internalId !== field.internalId;
           })
         };
       })();
 
     case 'REORDER_FIELD':
       return (() => {
-        let editing = state.editing;
-
         // Don't change anything if position hasn't changed
         if (action.oldIndex === action.newIndex) {
           return state;
         }
 
-        if (editing !== false && action.oldIndex === editing) {
-          editing = action.newIndex;
-        }
-
         return {
           ...state,
-          editing: editing,
           fields: arrayMove(state.fields, action.oldIndex, action.newIndex)
         }
       })();
