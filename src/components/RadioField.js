@@ -47,7 +47,7 @@ RadioField.propTypes = {
     value: PropTypes.string.isRequired,
   })).isRequired,
   label: PropTypes.string.isRequired,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 };
 
 RadioField.defaultProps = {
@@ -55,6 +55,6 @@ RadioField.defaultProps = {
   value: '',
   items: [
     { label: 'Yes', value: 'yes' },
-    { label: 'No', value: 'no'},
-  ]
+    { label: 'No', value: 'no' },
+  ],
 };

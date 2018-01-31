@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setEditing, reorderField, removeField } from '../actions/actions.js';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
 class SortableFieldList extends Component {
   constructor() {
@@ -17,7 +17,7 @@ class SortableFieldList extends Component {
   }
 
   render() {
-    const SortableItem = SortableElement(({field, index}) => {
+    const SortableItem = SortableElement(({ field, index }) => {
       const Field = field.component;
 
       return (
@@ -32,33 +32,31 @@ class SortableFieldList extends Component {
       );
     });
 
-    const SortableList = SortableContainer(({items, index}) => {
-      return (
-        <div className="field-list">
-          {items.map((field, index) => (
-            <SortableItem key={field.internalId} index={index} field={field} />
+    const SortableList = SortableContainer(({ items, index }) => (
+      <div className="field-list">
+        {items.map((field, index) => (
+          <SortableItem key={field.internalId} index={index} field={field} />
           ))}
-        </div>
-      );
-    });
+      </div>
+    ));
 
     return <SortableList helperClass="fieldwrapper--dragging" items={this.props.fields} onSortEnd={this.props.reorderField} />;
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { fields, editing } = state;
 
   return {
     fields,
-    editing
+    editing,
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   reorderField,
   setEditing,
-  removeField
+  removeField,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortableFieldList);

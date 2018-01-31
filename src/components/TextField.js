@@ -22,7 +22,7 @@ export default class TextField extends React.Component {
     }
 
     this.setState({
-      value: nextProps.value
+      value: nextProps.value,
     });
   }
 
@@ -62,7 +62,7 @@ TextField.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   value: PropTypes.string,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 };
 
 TextField.defaultProps = {

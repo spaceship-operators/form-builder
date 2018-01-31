@@ -7,94 +7,88 @@ import wrapField from '../components/FieldWrapper.js';
 import { arrayMove } from 'react-sortable-hoc';
 
 const initialState = {
-  fieldTypes:[
-    { 
-      label: 'Text Field', 
-      value: 'text', 
+  fieldTypes: [
+    {
+      label: 'Text Field',
+      value: 'text',
       default: {
         label: 'Text field label',
         component: wrapField(TextField),
         editForm: EditForm,
-      }
+      },
     },
-    { 
-      label: 'Dropdown', 
-      value: 'dropdown', 
+    {
+      label: 'Dropdown',
+      value: 'dropdown',
       default: {
         label: 'Dropdown field label',
         component: wrapField(Dropdown),
         editForm: EditForm,
-      }
+      },
     },
-    { 
-      label: 'Radio Group', 
-      value: 'radio', 
+    {
+      label: 'Radio Group',
+      value: 'radio',
       default: {
         label: 'Radio group label',
         component: wrapField(RadioField),
         editForm: EditForm,
-      }
+      },
     },
-    { 
-      label: 'Checkbox Group', 
-      value: 'checkbox', 
+    {
+      label: 'Checkbox Group',
+      value: 'checkbox',
       default: {
         label: 'Checkbox group label',
         component: wrapField(CheckboxField),
         editForm: EditForm,
-      }
-    }
+      },
+    },
   ],
   selectedFieldType: 'text',
   fields: [],
-  editing: false
-}
+  editing: false,
+};
 
 const guid = () => {
-  const s4 = () => {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
+  const s4 = () => Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
 
   const parts = [
-    s4() + s4(), 
-    s4(), 
-    s4(), 
-    s4(), 
-    s4() + s4() + s4()
+    s4() + s4(),
+    s4(),
+    s4(),
+    s4(),
+    s4() + s4() + s4(),
   ];
 
   return parts.join('-');
-}
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case 'CHANGE_SELECTED_FIELD':
-      return {...state, selectedFieldType: action.value};
+      return { ...state, selectedFieldType: action.value };
 
     case 'ADD_FIELD':
       return (() => {
-        const selectedField = state.fieldTypes.find(field => {
-          return field.value === state.selectedFieldType;
-        });
+        const selectedField = state.fieldTypes.find(field => field.value === state.selectedFieldType);
 
         const newField = Object.assign({}, selectedField.default);
         newField.internalId = guid();
 
-        return {...state, fields: [...state.fields, newField], editing: newField.internalId};
+        return { ...state, fields: [...state.fields, newField], editing: newField.internalId };
       })();
 
     case 'SET_EDITING':
-      return {...state, editing: action.internalId};
+      return { ...state, editing: action.internalId };
 
     case 'UPDATE_FIELD':
       return (() => {
-        let fields = state.fields.concat([]);
+        const fields = state.fields.concat([]);
 
-        let field = fields.find((f) => {
-          return f.internalId === action.fieldId;  
-        });
+        let field = fields.find(f => f.internalId === action.fieldId);
 
         if (field === undefined) {
           return state;
@@ -102,7 +96,7 @@ export default (state = initialState, action) => {
 
         field = Object.assign(field, action.fieldProps);
 
-        return {...state, fields}; 
+        return { ...state, fields };
       })();
 
     case 'REMOVE_FIELD':
@@ -112,9 +106,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           editing,
-          fields: fields.filter(field => {
-            return action.internalId !== field.internalId;
-          })
+          fields: fields.filter(field => action.internalId !== field.internalId),
         };
       })();
 
@@ -127,11 +119,11 @@ export default (state = initialState, action) => {
 
         return {
           ...state,
-          fields: arrayMove(state.fields, action.oldIndex, action.newIndex)
-        }
+          fields: arrayMove(state.fields, action.oldIndex, action.newIndex),
+        };
       })();
 
     default:
       return state;
   }
-}
+};

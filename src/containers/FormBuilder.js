@@ -26,13 +26,11 @@ class FormBuilder extends Component {
   handleSubmit(e) {
     e.preventDefault();
   }
-  
+
   render() {
     let editForm;
     if (this.props.editing !== false) {
-      const editingField = this.props.fields.find((f) => {
-        return f.internalId === this.props.editing;
-      });
+      const editingField = this.props.fields.find(f => f.internalId === this.props.editing);
 
       if (editingField !== undefined) {
         const EditFormComponent = editingField.editForm !== undefined
@@ -54,12 +52,12 @@ class FormBuilder extends Component {
             <div className="form-group">
               <label htmlFor="fieldType">Select field:</label>
               <select name="fieldType" 
-                id="fieldType" 
+                id="fieldType"
                 onChange={this.handleChangeSelectField}
                 defaultValue={this.props.selectedFieldType}
                 className="form-control">
                 { this.props.fieldTypes.map(({ label, value }) => (
-                  <option value={value} 
+                  <option value={value}
                     key={value}
                     >
                     {label}
@@ -82,14 +80,16 @@ class FormBuilder extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { fieldTypes, selectedFieldType, fields, editing } = state;
+const mapStateToProps = (state) => {
+  const {
+    fieldTypes, selectedFieldType, fields, editing,
+  } = state;
 
   return {
     fieldTypes,
     selectedFieldType,
     fields,
-    editing
+    editing,
   };
 };
 
@@ -98,7 +98,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   addField,
   setEditing,
   updateField,
-  removeField
+  removeField,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormBuilder);

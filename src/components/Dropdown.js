@@ -46,7 +46,7 @@ Dropdown.propTypes = {
     value: PropTypes.string.isRequired,
   })).isRequired,
   label: PropTypes.string.isRequired,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 };
 
 Dropdown.defaultProps = {
@@ -54,5 +54,5 @@ Dropdown.defaultProps = {
   value: '',
   items: [
     { label: 'Option 1', value: 'option1' },
-  ]
+  ],
 };

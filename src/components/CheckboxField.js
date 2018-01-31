@@ -47,7 +47,7 @@ CheckboxField.propTypes = {
     value: PropTypes.string.isRequired,
   })).isRequired,
   label: PropTypes.string.isRequired,
-  handleChange: PropTypes.func
+  handleChange: PropTypes.func,
 };
 
 CheckboxField.defaultProps = {
@@ -55,6 +55,6 @@ CheckboxField.defaultProps = {
   value: '',
   items: [
     { label: 'Yes', value: 'yes' },
-    { label: 'No', value: 'no'},
-  ]
+    { label: 'No', value: 'no' },
+  ],
 };
