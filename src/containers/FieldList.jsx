@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setEditing, reorderField, removeField } from '../actions/actions.js';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { setEditing, reorderField, removeField } from '../actions/actions.js';
 
 class SortableFieldList extends Component {
   constructor() {
@@ -36,7 +36,7 @@ class SortableFieldList extends Component {
       <div className="field-list">
         {items.map((field, index) => (
           <SortableItem key={field.internalId} index={index} field={field} />
-          ))}
+        ))}
       </div>
     ));
 

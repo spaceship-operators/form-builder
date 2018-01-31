@@ -14,13 +14,7 @@ export default class CheckboxField extends React.Component {
    * @param {Object} Dom event for dropdown change
    */
   handleChange({ target: { value } }) {
-    this.setState({
-      selectedItem: value,
-    });
-
-    if (this.props.handleChange) {
-      this.props.handleChange(value);
-    }
+    this.props.handleChange(value);
   }
 
   render() {
@@ -29,8 +23,14 @@ export default class CheckboxField extends React.Component {
         <legend>{this.props.label}</legend>
         {this.props.items.map(({ label, value }) => (
           <div className="form-check" key={value}>
-            <label className="field field--checkbox form-check-label">
-              <input type="checkbox" className="form-check-input" name={this.props.id} value={value} key={value} />
+            <label className="field field--checkbox form-check-label" htmlFor={this.props.id} >
+              <input
+                type="checkbox"
+                className="form-check-input"
+                name={this.props.id}
+                value={value}
+                key={value}
+              />
               {label}
             </label>
           </div>
@@ -45,14 +45,14 @@ CheckboxField.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-  })).isRequired,
-  label: PropTypes.string.isRequired,
+  })),
+  label: PropTypes.string,
   handleChange: PropTypes.func,
 };
 
 CheckboxField.defaultProps = {
+  handleChange: () => {},
   label: 'Checkbox Group Label',
-  value: '',
   items: [
     { label: 'Yes', value: 'yes' },
     { label: 'No', value: 'no' },

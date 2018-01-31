@@ -1,6 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const wrapField = Field => class extends React.Component {
+  static get propTypes() {
+    return {
+      handleRemoveField: PropTypes.func.isRequired,
+      handleEditField: PropTypes.func.isRequired,
+      internalId: PropTypes.string.isRequired,
+      editing: PropTypes.bool.isRequired,
+    };
+  }
+
   constructor(props) {
     super(props);
 

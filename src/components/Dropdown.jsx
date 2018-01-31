@@ -14,13 +14,7 @@ export default class Dropdown extends React.Component {
    * @param {Object} Dom event for dropdown change
    */
   handleChange({ target: { value } }) {
-    this.setState({
-      selectedItem: value,
-    });
-
-    if (this.props.handleChange) {
-      this.props.handleChange(value);
-    }
+    this.props.handleChange(value);
   }
 
   render() {
@@ -29,7 +23,11 @@ export default class Dropdown extends React.Component {
         <label htmlFor={this.props.id} className="field field--dropdown">
           {this.props.label}
         </label>
-        <select id={this.props.id} onChange={this.handleChange} className="field__input form-control">
+        <select
+          id={this.props.id}
+          onChange={this.handleChange}
+          className="field__input form-control"
+        >
           {this.props.items.map(({ label, value }) => (
             <option value={value} key={value} >{label}</option>
           ))}
@@ -44,14 +42,14 @@ Dropdown.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-  })).isRequired,
-  label: PropTypes.string.isRequired,
+  })),
+  label: PropTypes.string,
   handleChange: PropTypes.func,
 };
 
 Dropdown.defaultProps = {
+  handleChange: () => {},
   label: 'Dropdown Label',
-  value: '',
   items: [
     { label: 'Option 1', value: 'option1' },
   ],

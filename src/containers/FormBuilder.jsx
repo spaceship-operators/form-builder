@@ -51,7 +51,7 @@ class FormBuilder extends Component {
           <div className="form-builder__addform">
             <div className="form-group">
               <label htmlFor="fieldType">Select field:</label>
-              <select name="fieldType" 
+              <select name="fieldType"
                 id="fieldType"
                 onChange={this.handleChangeSelectField}
                 defaultValue={this.props.selectedFieldType}

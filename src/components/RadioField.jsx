@@ -14,13 +14,7 @@ export default class RadioField extends React.Component {
    * @param {Object} Dom event for dropdown change
    */
   handleChange({ target: { value } }) {
-    this.setState({
-      selectedItem: value,
-    });
-
-    if (this.props.handleChange) {
-      this.props.handleChange(value);
-    }
+    this.props.handleChange(value);
   }
 
   render() {
@@ -45,14 +39,14 @@ RadioField.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-  })).isRequired,
-  label: PropTypes.string.isRequired,
+  })),
+  label: PropTypes.string,
   handleChange: PropTypes.func,
 };
 
 RadioField.defaultProps = {
+  handleChange: () => {},
   label: 'Radio Group Label',
-  value: '',
   items: [
     { label: 'Yes', value: 'yes' },
     { label: 'No', value: 'no' },

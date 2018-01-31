@@ -1,10 +1,10 @@
-import Dropdown from '../components/Dropdown.js';
-import TextField from '../components/TextField.js';
-import RadioField from '../components/RadioField.js';
-import CheckboxField from '../components/CheckboxField.js';
-import EditForm from '../components/EditForm.js';
-import wrapField from '../components/FieldWrapper.js';
 import { arrayMove } from 'react-sortable-hoc';
+import Dropdown from '../components/Dropdown.jsx';
+import TextField from '../components/TextField.jsx';
+import RadioField from '../components/RadioField.jsx';
+import CheckboxField from '../components/CheckboxField.jsx';
+import EditForm from '../components/EditForm.jsx';
+import wrapField from '../components/FieldWrapper.jsx';
 
 const initialState = {
   fieldTypes: [

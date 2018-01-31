@@ -10,7 +10,7 @@ export default class EditForm extends React.Component {
     this.changeFieldLabel = this.changeFieldLabel.bind(this);
   }
 
-  completeEditing(e) {
+  completeEditing() {
     this.props.setEditing(false);
   }
 
@@ -48,7 +48,10 @@ export default class EditForm extends React.Component {
 }
 
 EditForm.propTypes = {
-  field: PropTypes.object.isRequired,
+  field: PropTypes.shape({
+    internalId: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  }).isRequired,
   setEditing: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
 };
