@@ -5,6 +5,7 @@
     "jest": true
   },
   "rules": {
-    "import/extensions": "always"
+    "import/extensions": "always",
+    "jsx-a11y/label-has-for": 0
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { setEditing, reorderField, removeField } from '../actions/actions.js';
 
@@ -17,7 +18,7 @@ class SortableFieldList extends Component {
   }
 
   render() {
-    const SortableItem = SortableElement(({ field, index }) => {
+    const SortableItem = SortableElement(({ field }) => {
       const Field = field.component;
 
       return (
@@ -32,7 +33,7 @@ class SortableFieldList extends Component {
       );
     });
 
-    const SortableList = SortableContainer(({ items, index }) => (
+    const SortableList = SortableContainer(({ items }) => (
       <div className="field-list">
         {items.map((field, index) => (
           <SortableItem key={field.internalId} index={index} field={field} />
@@ -40,9 +41,24 @@ class SortableFieldList extends Component {
       </div>
     ));
 
-    return <SortableList helperClass="fieldwrapper--dragging" items={this.props.fields} onSortEnd={this.props.reorderField} />;
+    return (<SortableList
+      helperClass="fieldwrapper--dragging"
+      items={this.props.fields}
+      onSortEnd={this.props.reorderField}
+    />);
   }
 }
+
+SortableFieldList.propTypes = {
+  removeField: PropTypes.func.isRequired,
+  editing: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]).isRequired,
+  fields: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  reorderField: PropTypes.func.isRequired,
+  setEditing: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const { fields, editing } = state;

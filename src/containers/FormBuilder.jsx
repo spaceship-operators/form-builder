@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { changeSelectedField, addField, setEditing, updateField, removeField } from '../actions/actions.js';
 import EditForm from '../components/EditForm.js';
 import FieldList from './FieldList.js';
@@ -39,14 +40,19 @@ class FormBuilder extends Component {
 
         editForm = (
           <div className="sidebar col-4 offset-1">
-            <EditFormComponent field={editingField} key={this.props.editing} setEditing={this.props.setEditing} updateField={this.props.updateField} />
+            <EditFormComponent
+              field={editingField}
+              key={this.props.editing}
+              setEditing={this.props.setEditing}
+              updateField={this.props.updateField}
+            />
           </div>
         );
       }
     }
 
     return (
-      <form className="form-builder row" onSubmit={this.handleSubmit}>
+      <form className="form-builder row" onSubmit={e => e.preventDefault()}>
         <div className={this.props.editing === false ? 'col-12' : 'col-7'}>
           <div className="form-builder__addform">
             <div className="form-group">
@@ -79,6 +85,20 @@ class FormBuilder extends Component {
     );
   }
 }
+
+FormBuilder.propTypes = {
+  addField: PropTypes.func.isRequired,
+  editing: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]).isRequired,
+  fields: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  setEditing: PropTypes.func.isRequired,
+  updateField: PropTypes.func.isRequired,
+  fieldTypes: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  selectedFieldType: PropTypes.string.isRequired,
+  changeSelectedField: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const {

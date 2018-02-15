@@ -73,7 +73,9 @@ export default (state = initialState, action) => {
 
     case 'ADD_FIELD':
       return (() => {
-        const selectedField = state.fieldTypes.find(field => field.value === state.selectedFieldType);
+        const selectedField = state.fieldTypes.find(field => (
+          field.value === state.selectedFieldType
+        ));
 
         const newField = Object.assign({}, selectedField.default);
         newField.internalId = guid();
