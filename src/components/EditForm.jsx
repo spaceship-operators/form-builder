@@ -17,7 +17,7 @@ export default class EditForm extends React.Component {
   changeFieldLabel({ target: { value } }) {
     this.props.updateField(
       this.props.field.internalId,
-      { label: value }
+      { label: value },
     );
   }
 
@@ -28,16 +28,20 @@ export default class EditForm extends React.Component {
 
         <div className="form-group">
           <label htmlFor="label">Label</label>
-          <input type="text"
+          <input
+            type="text"
             name="label"
             id="label"
             className="form-control"
-            onChange={this.changeFieldLabel} />
+            onChange={this.changeFieldLabel}
+          />
         </div>
 
         <div className="form-group">
-          <button className="btn btn-success"
-            onClick={this.completeEditing}>
+          <button
+            className="btn btn-success"
+            onClick={this.completeEditing}
+          >
             Done
           </button>
         </div>

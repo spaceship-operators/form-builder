@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { changeSelectedField, addField, setEditing, updateField, removeField } from '../actions/actions.js';
-import EditForm from '../components/EditForm.js';
-import FieldList from './FieldList.js';
+import EditForm from '../components/EditForm.jsx';
+import FieldList from './FieldList.jsx';
 
 class FormBuilder extends Component {
   constructor() {
@@ -22,10 +22,6 @@ class FormBuilder extends Component {
     e.preventDefault();
 
     this.props.addField();
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
   }
 
   render() {
@@ -57,23 +53,31 @@ class FormBuilder extends Component {
           <div className="form-builder__addform">
             <div className="form-group">
               <label htmlFor="fieldType">Select field:</label>
-              <select name="fieldType"
+              <select
+                name="fieldType"
                 id="fieldType"
                 onChange={this.handleChangeSelectField}
                 defaultValue={this.props.selectedFieldType}
-                className="form-control">
+                className="form-control"
+              >
                 { this.props.fieldTypes.map(({ label, value }) => (
-                  <option value={value}
+                  <option
+                    value={value}
                     key={value}
-                    >
+                  >
                     {label}
-                    </option>
+                  </option>
                 )) }
               </select>
             </div>
 
             <div className="form-group">
-              <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
+              <button
+                onClick={this.handleAddField}
+                className="btn btn-primary btn-block"
+              >
+                Add
+              </button>
             </div>
           </div>
 
