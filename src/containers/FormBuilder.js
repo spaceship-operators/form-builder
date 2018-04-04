@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { changeSelectedField, addField, setEditing, updateField, removeField } from '../actions/actions.js';
-import Dropdown from '../components/Dropdown.js';
 import EditForm from '../components/EditForm.js';
 import FieldList from './FieldList.js';
 
@@ -14,7 +13,7 @@ class FormBuilder extends Component {
     this.handleAddField = this.handleAddField.bind(this);
   }
 
-  handleChangeSelectField(value) {
+  handleChangeSelectField({ target: { value } }) {
     this.props.changeSelectedField(value);
   }
 
@@ -28,7 +27,6 @@ class FormBuilder extends Component {
     e.preventDefault();
   }
   
-
   render() {
     let editForm;
     if (this.props.editing !== false) {
@@ -53,15 +51,28 @@ class FormBuilder extends Component {
       <form className="form-builder row" onSubmit={this.handleSubmit}>
         <div className={this.props.editing === false ? 'col-12' : 'col-7'}>
           <div className="form-builder__addform">
-            <Dropdown
-              label='Select field:'
-              id='add-field-dropdown'
-              items={this.props.fieldTypes}
-              value={this.props.selectedFieldType}
-              handleChange={this.handleChangeSelectField}
-            />
-            <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
+            <div className="form-group">
+              <label htmlFor="fieldType">Select field:</label>
+              <select name="fieldType" 
+                id="fieldType" 
+                onChange={this.handleChangeSelectField}
+                defaultValue={this.props.selectedFieldType}
+                className="form-control">
+                { this.props.fieldTypes.map(({ label, value }) => (
+                  <option value={value} 
+                    key={value}
+                    >
+                    {label}
+                    </option>
+                )) }
+              </select>
+            </div>
+
+            <div className="form-group">
+              <button onClick={this.handleAddField} className="btn btn-primary btn-block">Add</button>
+            </div>
           </div>
+
           <FieldList fields={this.props.fields} />
         </div>
 
