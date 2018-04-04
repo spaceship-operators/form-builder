@@ -12,7 +12,7 @@ class SortableFieldList extends Component {
   }
 
   handleRemoveField(internalId) {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm('Are you sure?')) { // eslint-disable-line no-alert
       this.props.removeField(internalId);
     }
   }
