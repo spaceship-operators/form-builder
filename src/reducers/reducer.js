@@ -8,36 +8,36 @@ import { arrayMove } from 'react-sortable-hoc';
 
 const initialState = {
   fieldTypes:[
-    { 
-      label: 'Text Field', 
-      value: 'text', 
+    {
+      label: 'Text Field',
+      value: 'text',
       default: {
         label: 'Text field label',
         component: wrapField(TextField),
         editForm: EditForm,
       }
     },
-    { 
-      label: 'Dropdown', 
-      value: 'dropdown', 
+    {
+      label: 'Dropdown',
+      value: 'dropdown',
       default: {
         label: 'Dropdown field label',
         component: wrapField(Dropdown),
         editForm: EditForm,
       }
     },
-    { 
-      label: 'Radio Group', 
-      value: 'radio', 
+    {
+      label: 'Radio Group',
+      value: 'radio',
       default: {
         label: 'Radio group label',
         component: wrapField(RadioField),
         editForm: EditForm,
       }
     },
-    { 
-      label: 'Checkbox Group', 
-      value: 'checkbox', 
+    {
+      label: 'Checkbox Group',
+      value: 'checkbox',
       default: {
         label: 'Checkbox group label',
         component: wrapField(CheckboxField),
@@ -58,10 +58,10 @@ const guid = () => {
   }
 
   const parts = [
-    s4() + s4(), 
-    s4(), 
-    s4(), 
-    s4(), 
+    s4() + s4(),
+    s4(),
+    s4(),
+    s4(),
     s4() + s4() + s4()
   ];
 
@@ -85,6 +85,22 @@ export default (state = initialState, action) => {
         return {...state, fields: [...state.fields, newField], editing: newField.internalId};
       })();
 
+    case 'ADD_FIELD_AFTER':
+      return (() => {
+        const selectedField = state.fieldTypes.find(field => {
+          return field.value === state.selectedFieldType;
+        });
+
+        const newField = Object.assign({}, selectedField.default);
+        newField.internalId = guid();
+
+        const newFields = state.fields;
+        const insertIndex = newFields.findIndex(field => field.internalId === action.internalId) + 1;
+        newFields.splice(insertIndex, 0, newField);
+
+        return {...state, fields: [...state.fields], editing: newField.internalId};
+      })();
+
     case 'SET_EDITING':
       return {...state, editing: action.internalId};
 
@@ -93,7 +109,7 @@ export default (state = initialState, action) => {
         let fields = state.fields.concat([]);
 
         let field = fields.find((f) => {
-          return f.internalId === action.fieldId;  
+          return f.internalId === action.fieldId;
         });
 
         if (field === undefined) {
@@ -102,7 +118,7 @@ export default (state = initialState, action) => {
 
         field = Object.assign(field, action.fieldProps);
 
-        return {...state, fields}; 
+        return {...state, fields};
       })();
 
     case 'REMOVE_FIELD':

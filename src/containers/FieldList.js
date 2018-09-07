@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setEditing, reorderField, removeField } from '../actions/actions.js';
+import { setEditing, reorderField, removeField, addFieldAfter } from '../actions/actions.js';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 class SortableFieldList extends Component {
@@ -28,6 +28,7 @@ class SortableFieldList extends Component {
           {...field}
           handleEditField={this.props.setEditing}
           handleRemoveField={this.handleRemoveField}
+          handleInlineAdd={this.props.addFieldAfter}
         />
       );
     });
@@ -58,7 +59,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => bindActionCreators({
   reorderField,
   setEditing,
-  removeField
+  removeField,
+  addFieldAfter,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortableFieldList);

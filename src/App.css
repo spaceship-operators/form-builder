@@ -108,3 +108,14 @@
   border-color: #007bff;
   background-color: #f6faff;
 }
+
+.fieldwrapper__add-inline {
+  width: 100%;
+  height: 1px;
+}
+
+.fieldwrapper__add-inline::after {
+  content: '+';
+  width: 100%;
+  height: 1px;
+}

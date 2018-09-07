@@ -8,6 +8,7 @@ const wrapField = (Field) => {
 
       this.handleEditField = this.handleEditField.bind(this);
       this.handleRemoveField = this.handleRemoveField.bind(this);
+      this.handleInlineAdd = this.handleInlineAdd.bind(this);
     }
 
     handleEditField(e) {
@@ -26,20 +27,33 @@ const wrapField = (Field) => {
       }
     }
 
+    handleInlineAdd(e) {
+      e.preventDefault();
+
+      if (this.props.handleInlineAdd) {
+        this.props.handleInlineAdd(this.props.internalId);
+      }
+    }
+
     render() {
       return (
-        <div className={"fieldwrapper form-group" + (this.props.editing ? ' fieldwrapper--editing' : '')}>
-          <Field {...this.props} />
-          <div className="fieldwrapper__controls text-right clearfix">
-            {!this.props.editing &&
-              <button onClick={this.handleEditField} className="fieldwrapper__edit btn btn-info">
-                Edit
+        <div>
+          <div className={"fieldwrapper form-group" + (this.props.editing ? ' fieldwrapper--editing' : '')}>
+            <Field {...this.props} />
+            <div className="fieldwrapper__controls text-right clearfix">
+              {!this.props.editing &&
+                <button onClick={this.handleEditField} className="fieldwrapper__edit btn btn-info">
+                  Edit
+                </button>
+              }
+              <button onClick={this.handleRemoveField} className="fieldwrapper__remove btn btn-danger">
+                Remove
               </button>
-            }
-            <button onClick={this.handleRemoveField} className="fieldwrapper__remove btn btn-danger">
-              Remove
-            </button>
+            </div>
           </div>
+          <button onClick={this.handleInlineAdd} className="fieldwrapper__add-inline btn btn-info">
+            
+          </button>
         </div>
       );
     }
