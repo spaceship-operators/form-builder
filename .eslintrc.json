@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "import/extensions": "always",
+    "jsx-a11y/label-has-for": 0
+  }
+}

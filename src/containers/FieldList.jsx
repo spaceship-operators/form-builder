@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { setEditing, reorderField, removeField } from '../actions/actions.js';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 class SortableFieldList extends Component {
   constructor() {
@@ -11,13 +12,13 @@ class SortableFieldList extends Component {
   }
 
   handleRemoveField(internalId) {
-    if (window.confirm('Are you sure?')) {
+    if (window.confirm('Are you sure?')) { // eslint-disable-line no-alert
       this.props.removeField(internalId);
     }
   }
 
   render() {
-    const SortableItem = SortableElement(({field, index}) => {
+    const SortableItem = SortableElement(({ field }) => {
       const Field = field.component;
 
       return (
@@ -32,33 +33,46 @@ class SortableFieldList extends Component {
       );
     });
 
-    const SortableList = SortableContainer(({items, index}) => {
-      return (
-        <div className="field-list">
-          {items.map((field, index) => (
-            <SortableItem key={field.internalId} index={index} field={field} />
-          ))}
-        </div>
-      );
-    });
+    const SortableList = SortableContainer(({ items }) => (
+      <div className="field-list">
+        {items.map((field, index) => (
+          <SortableItem key={field.internalId} index={index} field={field} />
+        ))}
+      </div>
+    ));
 
-    return <SortableList helperClass="fieldwrapper--dragging" items={this.props.fields} onSortEnd={this.props.reorderField} />;
+    return (<SortableList
+      helperClass="fieldwrapper--dragging"
+      items={this.props.fields}
+      onSortEnd={this.props.reorderField}
+    />);
   }
 }
 
-const mapStateToProps = state => {
+SortableFieldList.propTypes = {
+  removeField: PropTypes.func.isRequired,
+  editing: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]).isRequired,
+  fields: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  reorderField: PropTypes.func.isRequired,
+  setEditing: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
   const { fields, editing } = state;
 
   return {
     fields,
-    editing
+    editing,
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   reorderField,
   setEditing,
-  removeField
+  removeField,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SortableFieldList);

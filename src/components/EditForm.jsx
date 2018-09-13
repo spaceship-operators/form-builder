@@ -10,14 +10,14 @@ export default class EditForm extends React.Component {
     this.changeFieldLabel = this.changeFieldLabel.bind(this);
   }
 
-  completeEditing(e) {
+  completeEditing() {
     this.props.setEditing(false);
   }
 
   changeFieldLabel({ target: { value } }) {
     this.props.updateField(
-      this.props.field.internalId, 
-      { label: value }
+      this.props.field.internalId,
+      { label: value },
     );
   }
 
@@ -28,16 +28,20 @@ export default class EditForm extends React.Component {
 
         <div className="form-group">
           <label htmlFor="label">Label</label>
-          <input type="text" 
-            name="label" 
+          <input
+            type="text"
+            name="label"
             id="label"
-            className="form-control" 
-            onChange={this.changeFieldLabel} />
+            className="form-control"
+            onChange={this.changeFieldLabel}
+          />
         </div>
 
         <div className="form-group">
-          <button className="btn btn-success" 
-            onClick={this.completeEditing}>
+          <button
+            className="btn btn-success"
+            onClick={this.completeEditing}
+          >
             Done
           </button>
         </div>
@@ -48,7 +52,10 @@ export default class EditForm extends React.Component {
 }
 
 EditForm.propTypes = {
-  field: PropTypes.object.isRequired,
+  field: PropTypes.shape({
+    internalId: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  }).isRequired,
   setEditing: PropTypes.func.isRequired,
   updateField: PropTypes.func.isRequired,
 };
