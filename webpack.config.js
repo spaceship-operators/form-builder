@@ -6,7 +6,7 @@ const PATHS = {
 
 module.exports = {
   entry: {
-    bundle: `${PATHS.SRC}/containers/FormBuilder.js`,
+    bundle: `${PATHS.SRC}/expose/index.js`,
   },
   output: {
     path: PATHS.DIST,

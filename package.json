@@ -1,7 +1,6 @@
 {
   "name": "freeform-builder",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": [
@@ -15,12 +14,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "webpack --mode production",
+    "watch": "webpack --mode production --watch",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "7",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "react": "^16.2.0",
