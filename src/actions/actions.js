@@ -4,3 +4,4 @@ export const setEditing = internalId => ({type: 'SET_EDITING', internalId});
 export const updateField = (fieldId, fieldProps) => ({type: 'UPDATE_FIELD', fieldId, fieldProps});
 export const removeField = internalId => ({type: 'REMOVE_FIELD', internalId});
 export const reorderField = ({oldIndex, newIndex}) => ({type: 'REORDER_FIELD', oldIndex, newIndex});
+export const addInitialFields = fields => ({type: 'ADD_INITIAL_FIELDS', fields});

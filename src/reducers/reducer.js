@@ -35,7 +35,7 @@ const initialState = {
         editForm: EditForm,
       }
     },
-    { 
+    {
       label: 'Checkbox Group', 
       value: 'checkbox', 
       default: {
@@ -70,6 +70,21 @@ const guid = () => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case 'ADD_INITIAL_FIELDS':
+      return (() => {
+        const fields = [];
+
+        action.fields.forEach(field => {
+          const matchedFieldType = state.fieldTypes.find(fieldType => {
+            return fieldType.value === field.type;
+          });
+
+          fields.push(Object.assign({}, matchedFieldType.default, field));
+        });
+
+        return {...state, fields}
+      })();
+
     case 'CHANGE_SELECTED_FIELD':
       return {...state, selectedFieldType: action.value};
 
@@ -79,7 +94,7 @@ export default (state = initialState, action) => {
           return field.value === state.selectedFieldType;
         });
 
-        const newField = Object.assign({}, selectedField.default);
+        const newField = Object.assign({ type: selectedField.value }, selectedField.default);
         newField.internalId = guid();
 
         return {...state, fields: [...state.fields, newField], editing: newField.internalId};

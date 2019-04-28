@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { changeSelectedField, addField, setEditing, updateField, removeField } from '../actions/actions.js';
+import { changeSelectedField, addField, setEditing, updateField, removeField, addInitialFields } from '../actions/actions.js';
 import EditForm from '../components/EditForm.js';
 import FieldList from './FieldList.js';
 
@@ -11,6 +11,10 @@ class FormBuilder extends Component {
 
     this.handleChangeSelectField = this.handleChangeSelectField.bind(this);
     this.handleAddField = this.handleAddField.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.initialFields && this.props.addInitialFields(this.props.initialFields);
   }
 
   handleChangeSelectField({ target: { value } }) {
@@ -98,7 +102,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   addField,
   setEditing,
   updateField,
-  removeField
+  removeField,
+  addInitialFields,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormBuilder);
